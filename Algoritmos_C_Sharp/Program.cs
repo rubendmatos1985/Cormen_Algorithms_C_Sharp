@@ -38,7 +38,7 @@ namespace Algoritmos_C_Sharp
     static void merge(int[] result, int start, int end)
     {
       int middle = (int)Math.Ceiling((double)(end - start + 1) / 2) + start;
-      
+
       List<int> L = new List<int>();
       List<int> R = new List<int>();
 
@@ -80,10 +80,6 @@ namespace Algoritmos_C_Sharp
         }
       }
     }
-
-    // p = arr start 
-    // q = middle  arr 
-    // r = end arr
     static void MergeSort(int[] arr, int start, int end)
     {
       if (start < end)
