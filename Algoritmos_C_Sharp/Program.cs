@@ -7,7 +7,7 @@ namespace Algoritmos_C_Sharp
     {
         static void Main(string[] args)
         {
-            int[] arr = new int[] { 1,2,3,4,5 };
+             int[] arr = new int[] { 1,4,3,2};
             
             var mergeSort = new MergeSort();
             var heapSort = new HeapSort();

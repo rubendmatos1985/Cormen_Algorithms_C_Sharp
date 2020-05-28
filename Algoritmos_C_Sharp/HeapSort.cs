@@ -8,10 +8,10 @@ namespace Algoritmos_C_Sharp
     {
         public void MaxHeapify(int[] arr, int index)
         {
-            var left = Left(index) - 1;
-            var right = Right(index) - 1;
+            var left = Left(index+1) - 1;
+            var right = Right(index+1) - 1;
             var largest = index;
-            if (left <= arr.Length && arr[left] > arr[index])
+            if (left < arr.Length && arr[left] > arr[index])
             {
                 largest = left;
             }
@@ -19,7 +19,7 @@ namespace Algoritmos_C_Sharp
             {
                 largest = index;
             }
-            if (right <= arr.Length && arr[right] > arr[largest])
+            if (right < arr.Length && arr[right] > arr[largest])
             {
                 largest = right;
             }
