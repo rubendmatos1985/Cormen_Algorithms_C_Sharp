@@ -7,18 +7,15 @@ namespace Algoritmos_C_Sharp
     {
         static void Main(string[] args)
         {
-             int[] arr = new int[] { 1,4,3,2};
+             int[] arr = new int[] {10,9,8,7,6,5,4,3,2,1};
             
             var mergeSort = new MergeSort();
-            var heapSort = new HeapSort();
-            
-            
-            heapSort.MaxHeapify(arr, 0);
+            var heap = new MaxHeap(arr);
+            var heapSort = new HeapSort(heap);
 
-            foreach (int n in arr)
+            foreach (int n in heapSort.Sort())
             {
                 Console.WriteLine(n);
-
             }
         }
 
