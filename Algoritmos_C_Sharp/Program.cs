@@ -7,13 +7,11 @@ namespace Algoritmos_C_Sharp
     {
         static void Main(string[] args)
         {
-             int[] arr = new int[] {10,9,8,7,6,5,4,3,2,1};
-            
-            var mergeSort = new MergeSort();
-            var heap = new MaxHeap(arr);
-            var heapSort = new HeapSort(heap);
+             int[] arr = new int[] {2,8,7,1,3,5,6,4};
 
-            foreach (int n in heapSort.Sort())
+            var quicksort = new Quicksort();
+            quicksort.Sort(arr, 0, arr.Length - 1);
+            foreach(var n in arr)
             {
                 Console.WriteLine(n);
             }

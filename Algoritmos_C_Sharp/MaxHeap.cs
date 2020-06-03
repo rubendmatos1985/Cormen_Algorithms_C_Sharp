@@ -59,7 +59,17 @@ namespace Algoritmos_C_Sharp
                 MaxHeapify(_heap, i);
             }
         }
-        public int First => _heap[0];
+        public int ExtractMax()
+        {
+            if(_heap.Length <= 0)
+            {
+                throw new Exception("Heap underflow");
+            }
+            var result = _heap[0];
+            Swap(_heap, 0, _heap.Length - 1);
+            MaxHeapify(_heap, 0);
+            return result;
+        }
 
         public int Last => _heap[_heap.Length - 1];
 
