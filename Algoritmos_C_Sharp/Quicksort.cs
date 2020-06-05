@@ -18,11 +18,12 @@ namespace Algoritmos_C_Sharp
         private int Partition(int[] arr, int start, int end)
         {
          
-            var x = arr[end];
+            var lastNumber = arr[end];
             var i = start - 1; // i starts in -1
             for (var j = start; j < end; j++)
             {
-                if(arr[j] <= x)
+                var currentNumber = arr[j];    
+                if(currentNumber <= lastNumber)
                 {
                     i = i + 1;
                     Exchange(arr, i, j);
