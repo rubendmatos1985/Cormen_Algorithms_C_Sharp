@@ -7,11 +7,14 @@ namespace Algoritmos_C_Sharp
     {
         static void Main(string[] args)
         {
-             int[] arr = new int[] {2,8,7,1,3,5,6,4};
+             int[] arr = new int[] {1,4,1,2,7,5,2};
 
             var quicksort = new Quicksort();
-            quicksort.Sort(arr, 0, arr.Length - 1);
-            foreach(var n in arr)
+            //quicksort.Sort(arr, 0, arr.Length - 1);
+            var countingSort = new CountingSort();
+            var result = countingSort.Sort(arr, 9);
+
+            foreach(var n in result)
             {
                 Console.WriteLine(n);
             }
