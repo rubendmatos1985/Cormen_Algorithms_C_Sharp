@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Algoritmos_C_Sharp
 {
@@ -7,17 +8,19 @@ namespace Algoritmos_C_Sharp
     {
         static void Main(string[] args)
         {
-             int[] arr = new int[] {1,4,1,2,7,5,2};
+            var root = new Node(5);
+            var numbers = new Node[] { new Node(2), new Node(1), new Node(4), new Node(30), new Node(10) };
 
-            var quicksort = new Quicksort();
-            //quicksort.Sort(arr, 0, arr.Length - 1);
-            var countingSort = new CountingSort();
-            var result = countingSort.Sort(arr, 9);
-
-            foreach(var n in result)
+            foreach(var node in numbers)
             {
-                Console.WriteLine(n);
+                root.Insert(node);
             }
+
+            var searchTree = new BinarySearchTree(root);
+
+            Console.WriteLine($"Maximum {searchTree.Maximum().Key}");
+            Console.WriteLine($"Minimum {searchTree.Minimum().Key}");
+            searchTree.Inspect();
         }
 
         static int[] InsertionSort(int[] arr)
