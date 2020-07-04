@@ -8,19 +8,12 @@ namespace Algoritmos_C_Sharp
     {
         static void Main(string[] args)
         {
-            var root = new Node(5);
-            var numbers = new Node[] { new Node(2), new Node(1), new Node(4), new Node(30), new Node(10) };
-
-            foreach(var node in numbers)
+            var solution = new List<int>();
+            FindThreeNumbers.Run(solution);
+            foreach(var n in solution)
             {
-                root.Insert(node);
+                Console.WriteLine(n);
             }
-
-            var searchTree = new BinarySearchTree(root);
-
-            Console.WriteLine($"Maximum {searchTree.Maximum().Key}");
-            Console.WriteLine($"Minimum {searchTree.Minimum().Key}");
-            searchTree.Inspect();
         }
 
         static int[] InsertionSort(int[] arr)
