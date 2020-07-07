@@ -35,7 +35,7 @@ namespace Algoritmos_C_Sharp
                 {
                     if (solution.Count == 3)
                     {
-                        break; // founded
+                        break; // solution founded
                     }
                     else
                     {
@@ -67,8 +67,6 @@ namespace Algoritmos_C_Sharp
 
     public class CSPVariable
     {
-
-
         public List<int> Domain { get; set; }
 
 

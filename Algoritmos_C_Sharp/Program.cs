@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
+﻿using Algoritmos_C_Sharp.CSP;
 namespace Algoritmos_C_Sharp
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var solution = new List<int>();
-            FindThreeNumbers.Run(solution);
-            foreach(var n in solution)
+            var n = new KnightsTourProblem();
+            // create canvas with -1 values
+            // as default meaning not visited position
+            var canvas = new int[8][];
+            for (int i = 0; i < 8; i++)
             {
-                Console.WriteLine(n);
+                canvas[i] = new int[4];
+                for (int j = 0; j < 4; j++)
+                {
+                    canvas[i][j] = -1;
+                }
             }
+            n.SolveKnightTourProblem(canvas, currentPosition: new KnightsTourProblem.KnightMove { X = 0, Y=0 });
+            n.Inspect(canvas);
         }
 
         static int[] InsertionSort(int[] arr)
