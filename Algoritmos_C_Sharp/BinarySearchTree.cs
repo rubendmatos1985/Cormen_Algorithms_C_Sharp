@@ -26,7 +26,6 @@ namespace Algoritmos_C_Sharp
 
         public void Transplant(Node u, Node? v)
         {   
-            // if u is root
             if(u.Parent == null)
             {
                 _tree = v;
@@ -107,7 +106,7 @@ namespace Algoritmos_C_Sharp
 
         public void Insert(Node value)
         {
-            value.Parent = this; // it will be overrided in recursive calls
+            value.Parent = this; 
 
             if (Key > value.Key)
             {
@@ -135,21 +134,19 @@ namespace Algoritmos_C_Sharp
 
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
            
-
             if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
 
-            Node node = obj as Node;
-            return node?.Key == Key;
+            
+            return (obj as Node).Key == Key;
 
         }
 
-        // override object.GetHashCode
         public override int GetHashCode()
         {
 
