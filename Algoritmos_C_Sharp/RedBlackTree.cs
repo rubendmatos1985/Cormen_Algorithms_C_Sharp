@@ -5,66 +5,47 @@ using System.Diagnostics;
 namespace Algoritmos_C_Sharp
 {
 	/**
-		Rules
+		Rules:
 		1- Every node is either red or black
 		2- The root is black
 		3- Every leaf null is black
 		4- if a node is red both of its children are black
 		5- for each node, all simple paths from the node to descendant leaves contain the same number of black nodes
-	*/
+	**/
 	public class RedBlackTree
 	{
 		public RedBlackTreeNode Root { get; private set; }
-		public RedBlackTree(RedBlackTreeNode root) { Root = root; Root.Color = Color.Black; }
+		public RedBlackTree(RedBlackTreeNode? root)
+		{
+			if (root != null)
+			{
+				Root = root;
+				Root.Color = Color.Black;
+			}
+		}
 		public void Insert(RedBlackTreeNode newNode)
 		{
-
-			Root.AddChild(newNode);
-			InsertFixup(newNode);
-		}
-
-		public void Inspect()
-		{
-			int identationDeep = 15;
-			int rowNumber;
-			string result = ""; 
-
-			Func<int, Func<string?, string>> configIdent = (int num)=> (string? str) =>
+			if (Root == null)
 			{
-				var result = str ?? "";
-				while (num > 0)
-				{
-					result = " " + result;
-					num--;
-				}
-				return result;
-			};
-
-
-			var identRoot = configIdent(identationDeep);
-			var identRight = configIdent(identationDeep + 1);
-			var identLeft = configIdent(identationDeep - 1);
-
-			result += identRoot(Root.Key.ToString()) + "\b" + identLeft(Root.Left.Key.ToString()) + identRight(Root.Right.Key.ToString());
-
-			Console.Write(result);
-			
+				Root = newNode;
+				Root.Color = Color.Black;
+			}
+			else
+			{
+				Root.AddChild(newNode);
+			}
+			InsertFixup(newNode);
 		}
 
 		private void InsertFixup(RedBlackTreeNode newInsertedNode)
 		{
-			if (newInsertedNode.Parent == null)
-			{
-				Root = newInsertedNode;
-				return;
-			}
 			// if black aunt or null (because every null leaf is black)-> rotate
 			// if red aunt -> color flip
 			while (newInsertedNode.Parent?.Color == Color.Red)
 			{
-				if (newInsertedNode.Aunt == null || newInsertedNode.Aunt.Color == Color.Black)
+				if (newInsertedNode.Aunt.Color == Color.Black) // if node is not root has aunt parent and siblings
 				{
-					RedBlackTreeNode parent = new RedBlackTreeNode(0);
+					RedBlackTreeNode parent = new RedBlackTreeNode(null);
 					if (newInsertedNode == newInsertedNode.Parent.Left)
 					{    /*     c         b   
 						 *     /         / \
@@ -75,7 +56,7 @@ namespace Algoritmos_C_Sharp
 						if (newInsertedNode.Parent == newInsertedNode.Parent.Parent?.Left)
 						{
 							parent = RotateRight(newInsertedNode.Parent.Parent);
-							
+
 						}
 						/** a             c           b      
 						 *   \			 /	         / \ 
@@ -121,8 +102,8 @@ namespace Algoritmos_C_Sharp
 							 *				   / \
 							 *				  R   R
 							 */
-						    parent = RotateLeftRight(newInsertedNode.Parent);
-							
+							parent = RotateLeftRight(newInsertedNode.Parent);
+
 						}
 					}
 					ChangeColorsAfterRotation(parent);
@@ -142,6 +123,171 @@ namespace Algoritmos_C_Sharp
 			Root.Color = Color.Black;
 		}
 
+		public void Delete(RedBlackTreeNode node)
+		{
+			var targetCopy = node;
+			var targetColor = node.Color;
+			RedBlackTreeNode childCopy = new RedBlackTreeNode(null);
+
+			if (node.Left.Key == null)
+			{
+				childCopy = node.Right;
+				Transplant(node, childCopy);
+			}
+			else if (node.Right.Key == null)
+			{
+				childCopy = node.Left;
+				Transplant(node, node.Left);
+			}
+			else
+			{
+				// find  minimum of is right child
+				targetCopy = Minimum(node.Right);
+				targetColor = targetCopy.Color;
+				childCopy = targetCopy.Right;
+
+				if (targetCopy.Parent == node)
+				{
+					childCopy.Parent = targetCopy; /// useless ??
+
+				}
+				else
+				{
+					// transplant right child minimum for is right child
+					Transplant(targetCopy, targetCopy.Right);
+					targetCopy.Right = node.Right;
+					targetCopy.Right.Parent = targetCopy;
+				}
+				// transplant target with the minimum of is right child
+				Transplant(node, targetCopy);
+				targetCopy.Left = node.Left;
+				targetCopy.Left.Parent = targetCopy;
+				targetCopy.Color = node.Color;
+
+			}
+
+			if (targetColor == Color.Black)
+			{
+				DeleteFixup(childCopy);
+			}
+
+		}
+
+		/** 
+		 * When DeleteFixup is called:
+		 * 1. No black heights have changed
+		 * 2. No red nodes have been made adjacent
+		 * 3. The root remains black
+		 */
+		private void DeleteFixup(RedBlackTreeNode x)
+		{
+			while (x != Root && x.Color == Color.Black)
+			{
+				if (x == x.Parent.Left)
+				{
+					var sibling = x.Parent.Right;
+					if (sibling.Color == Color.Red) // case 1 Sibling is red
+					{
+						sibling.Color = Color.Black;
+						x.Parent.Color = Color.Red;
+						RotateLeft(x.Parent);
+						sibling = x.Parent.Right;
+					}
+					if (sibling.Left.Color == Color.Black && sibling.Right.Color == Color.Black) // case 2 sibling is black and both children black
+					{
+						sibling.Color = Color.Red;
+						x = x.Parent;
+
+					}
+					else if (sibling.Right.Color == Color.Black)
+					{
+						sibling.Left.Color = Color.Black;
+						sibling.Color = Color.Red;
+						RotateRight(sibling);
+						sibling = x.Parent.Right;
+					}
+					else // case 4 sibling is black and its right children is red
+					{
+						sibling.Color = x.Parent.Color;
+						x.Parent.Color = Color.Black;
+						sibling.Right.Color = Color.Black;
+						RotateLeft(x.Parent);
+						x = Root;
+					}
+
+
+				}
+				else
+				{
+					var sibling = x.Parent.Left;
+					if (sibling.Color == Color.Red) // case 1 Sibling is red
+					{
+						sibling.Color = Color.Black;
+						x.Parent.Color = Color.Red;
+						RotateLeft(x.Parent);
+						sibling = x.Parent.Left;
+					}
+					if ((sibling.Left == null || sibling.Left.Color == Color.Black) && (sibling.Right == null || sibling.Right.Color == Color.Black)) // case 2 sibling is black and both children black
+					{
+						sibling.Color = Color.Red;
+						x = x.Parent;
+
+					}
+					else if (sibling.Left.Color == Color.Black)
+					{
+						sibling.Left.Color = Color.Black;
+						sibling.Color = Color.Red;
+						RotateRight(sibling);
+						sibling = x.Parent.Left;
+					}
+					else // case 4 sibling is black and its left children is red
+					{
+						sibling.Color = x.Parent.Color;
+						x.Parent.Color = Color.Black;
+						sibling.Left.Color = Color.Black;
+						RotateRight(x.Parent);
+						x = Root;
+					}
+				}
+			}
+
+			x.Color = Color.Black;
+		}
+		public RedBlackTreeNode Minimum(RedBlackTreeNode node)
+		{
+			var n = node;
+			while (n.Left.Key != null)
+			{
+				n = n.Left;
+			}
+
+			return n;
+		}
+
+		private void Transplant(RedBlackTreeNode target, RedBlackTreeNode? newTarget)
+		{
+			if (target.Parent == null && newTarget != null)
+			{
+				Root = newTarget;
+				Root.Parent = null;
+				return;
+			}
+
+			if (target.Parent.Left == target)
+			{
+				target.Parent.Left = newTarget;
+			}
+			else
+			{
+				target.Parent.Right = newTarget;
+			}
+			if (newTarget != null)
+			{
+				newTarget.Parent = target.Parent;
+			}
+
+		}
+
 		private void ChangeColorsAfterRotation(RedBlackTreeNode node)
 		{
 			node.Color = Color.Black;
@@ -155,6 +301,8 @@ namespace Algoritmos_C_Sharp
 			if (node.Parent == null)
 			{
 				var p = node.Left;
+				p.Parent = null;
+				
 				if (p != null)
 				{
 					Root = p;
@@ -192,10 +340,10 @@ namespace Algoritmos_C_Sharp
 			if (node.Parent == null)
 			{
 				var newRoot = node.Right;
-				if(newRoot != null)
+				if (newRoot != null)
 				{
 					Root = newRoot;
-					newRoot.Parent = null;
+					Root.Parent = null;
 					node.Right = newRoot.Left;
 					newRoot.Left = node;
 					node.Parent = newRoot;
@@ -204,25 +352,25 @@ namespace Algoritmos_C_Sharp
 
 			else
 			{
-				var rightChild = node?.Right;
+				var childCopy = node?.Right;
 				var parent = node?.Parent;
 				if (parent != null)
 				{
 					if (parent.Left == node)
 					{
-						parent.Left = rightChild;
+						parent.Left = childCopy;
 					}
 					else
 					{
-						parent.Right = rightChild;
+						parent.Right = childCopy;
 					}
 				}
-				if (rightChild != null)
+				if (childCopy != null)
 				{
-					rightChild.Parent = parent;
-					node.Parent = rightChild;
-					node.Right = rightChild.Left;
-					rightChild.Left = node;
+					childCopy.Parent = parent;
+					node.Parent = childCopy;
+					node.Right = childCopy.Left;
+					childCopy.Left = node;
 				}
 			}
 			return node?.Parent;
@@ -236,7 +384,7 @@ namespace Algoritmos_C_Sharp
 				Root = node;
 				return node;
 			}
-			if(parent.Parent == null)
+			if (parent.Parent == null)
 			{
 				Root = parent;
 				return parent;
@@ -256,23 +404,35 @@ namespace Algoritmos_C_Sharp
 		public RedBlackTreeNode? Parent { get; set; }
 		public RedBlackTreeNode? Aunt { get => Parent == Parent?.Parent?.Left ? Parent?.Parent?.Right : Parent?.Parent?.Left; }
 		public Color Color { get; set; }
-		public int Key { get; private set; }
-		public RedBlackTreeNode? Left { get; set; }
-		public RedBlackTreeNode? Right { get; set; }
+		public int? Key { get; private set; }
+		public RedBlackTreeNode Left { get; set; }
+		public RedBlackTreeNode Right { get; set; }
 
-		public RedBlackTreeNode(int key)
+		public RedBlackTreeNode(int? key)
 		{
 			Key = key;
-			Color = Color.Red;
+
+			if (key == null)
+			{
+				Color = Color.Black;
+			}
+			else
+			{
+				Left = new RedBlackTreeNode(null);
+				Right = new RedBlackTreeNode(null);
+				Left.Parent = this;
+				Right.Parent = this;
+				Color = Color.Red;
+			}
 		}
 
-		// SAME BEHAVIOR AS IN BINARY SEARCH TREE
+		// SEE BINARY SEARCH TREE
 		public void AddChild(RedBlackTreeNode node)
 		{
 			// go to left
 			if (node.Key < Key)
 			{
-				if (Left == null)
+				if (Left.Key == null)
 				{
 					node.Parent = this;
 					Left = node;
@@ -285,7 +445,7 @@ namespace Algoritmos_C_Sharp
 			}// go to right
 			else
 			{
-				if (Right == null)
+				if (Right.Key == null)
 				{
 					node.Parent = this;
 					Right = node;
