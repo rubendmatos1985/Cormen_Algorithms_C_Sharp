@@ -8,22 +8,32 @@ namespace Algoritmos_C_Sharp
 
 		static void Main(string[] args)
 		{
-			var root = new RedBlackTreeNode(3);
-			var leaf1 = new RedBlackTreeNode(1);
-			var leaf2 = new RedBlackTreeNode(5);
-			var leaf3 = new RedBlackTreeNode(7);
-			var leaf4 = new RedBlackTreeNode(6);
-			var leaf5 = new RedBlackTreeNode(8);
 
-			var rbTree = new RedBlackTree(root);
+			var rbTree = new RedBlackTree(null);
+			var nodes = new RedBlackTreeNode[]
+			{
+				new RedBlackTreeNode(41),
+				new RedBlackTreeNode(38),
+				new RedBlackTreeNode(31),
+				new RedBlackTreeNode(12),
+				new RedBlackTreeNode(19),
+				new RedBlackTreeNode(8)
+			};
+			foreach (var node in nodes)
+			{
+				rbTree.Insert(node);
+			}
+			//var node1 = nodes[5]; // 8
+			//var node2 = nodes[3]; // 12
+			//  var node3 = nodes[4]; // 19
+			var node4 = nodes[2]; // 31
+			//var node5 = nodes[1]; // 38
+			//var node6 = nodes[0]; // 41
 
-			rbTree.Insert(leaf1);
-			rbTree.Insert(leaf2);
-			rbTree.Insert(leaf3);
-			rbTree.Insert(leaf4);
-			rbTree.Insert(leaf5);
+			rbTree.Delete(node4);
 
-			rbTree.Inspect();	
+			Console.Read();
+
 		}
 		static int[] InsertionSort(int[] arr)
 		{
