@@ -24,7 +24,7 @@ namespace Algoritmos_C_Sharp
 
         }
 
-        public void Transplant(Node u, Node? v)
+        public void Transplant(Node u, Node v)
         {   
             if(u.Parent == null)
             {
