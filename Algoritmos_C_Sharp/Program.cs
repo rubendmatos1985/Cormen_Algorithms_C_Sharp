@@ -1,5 +1,7 @@
 ﻿using Algoritmos_C_Sharp.CSP;
+using Algoritmos_C_Sharp.DynamicAlgorithms;
 using System;
+using System.Collections.Generic;
 
 namespace Algoritmos_C_Sharp
 {
@@ -9,29 +11,12 @@ namespace Algoritmos_C_Sharp
 		static void Main(string[] args)
 		{
 
-			var rbTree = new RedBlackTree(null);
-			var nodes = new RedBlackTreeNode[]
-			{
-				new RedBlackTreeNode(41),
-				new RedBlackTreeNode(38),
-				new RedBlackTreeNode(31),
-				new RedBlackTreeNode(12),
-				new RedBlackTreeNode(19),
-				new RedBlackTreeNode(8)
-			};
-			foreach (var node in nodes)
-			{
-				rbTree.Insert(node);
-			}
-			//var node1 = nodes[5]; // 8
-			//var node2 = nodes[3]; // 12
-			//  var node3 = nodes[4]; // 19
-			var node4 = nodes[2]; // 31
-			//var node5 = nodes[1]; // 38
-			//var node6 = nodes[0]; // 41
+			var rod = new List<int> { 1, 5, 8, 9 };
+			var rodCuttingProblem = new RodCuttingProblem();
 
-			rbTree.Delete(node4);
-
+			rodCuttingProblem
+				.Run(rod);
+			
 			Console.Read();
 
 		}
