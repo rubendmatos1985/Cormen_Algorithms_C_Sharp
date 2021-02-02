@@ -61,7 +61,7 @@ namespace Algoritmos_C_Sharp.DynamicAlgorithms
 		}
 
 
-		// Naive approach O(2^n)
+		// Brute force approach O(2^n)
 		private int CutRod(List<int> rod, int length)
 		{
 			if (length == 0)
