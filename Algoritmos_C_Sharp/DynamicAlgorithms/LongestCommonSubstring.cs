@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 /**
 * Find the longest string (or strings ) that is a substring of two given strings
@@ -10,9 +11,15 @@ namespace Algoritmos_C_Sharp.DynamicAlgorithms
 {
 	class LongestCommonSubstring
 	{
+		Dictionary<string, string> _memo;
+
+		public LongestCommonSubstring()
+		{
+			_memo = new Dictionary<string, string>();
+		}
 		public void Calculate(string str1, string str2)
 		{
-			var result = FindLargestSubstring(str1, str2);
+			var result = FindLargestSubstringMemoized(str1, str2);
 			Console.WriteLine($"The longest substring between string 1 and string 2 is {result}");
 		}
 
@@ -22,12 +29,12 @@ namespace Algoritmos_C_Sharp.DynamicAlgorithms
 			if (str1.Length == 0) return "";
 			if (str1.Length == 1) return str1;
 			var result = "";
-			
+
 			for (var i = 0; i < str1.Length; i++)
 			{
 				var substring = str1.Substring(i, i == 0 ? str1.Length - 1 : str1.Length - i);
-				
-				if(substring.Length < result.Length)
+
+				if (substring.Length < result.Length)
 				{
 					// no need to keep searching
 					// cause next solutions length will be smaller than result
@@ -47,6 +54,44 @@ namespace Algoritmos_C_Sharp.DynamicAlgorithms
 
 			return result;
 		}
+
+		private string FindLargestSubstringMemoized(string str1, string str2)
+		{
+			if (str1.Length == 0) return "";
+			if (str1.Length == 1) return str1;
+			var result = "";
+
+			for (var i = 0; i < str1.Length; i++)
+			{
+				var substring = str1.Substring(i, i == 0 ? str1.Length - 1 : str1.Length - i);
+				if (substring.Length < result.Length)
+				{
+					// no need to keep searching
+					// cause next solutions length will be smaller than result
+					break;
+				}
+				try
+				{
+					result = _memo[substring];
+					return result;
+				}
+				catch
+				{
+					if (SubstringExists(substring, str2))
+					{
+						result = GetStringWithMaxLength(substring, result);
+						_memo[str1] = result;
+					}
+					else
+					{
+						result = FindLargestSubstringMemoized(substring, str2);
+					}
+				}
+
+			}
+			return result;
+		}
+
 
 
 
