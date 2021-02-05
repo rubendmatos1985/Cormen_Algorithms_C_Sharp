@@ -11,12 +11,11 @@ namespace Algoritmos_C_Sharp
 		static void Main(string[] args)
 		{
 
-			var rod = new List<int> { 1, 5, 8, 9 };
-			var rodCuttingProblem = new RodCuttingProblem();
+			var str2 = "BABCA";
+			var str1 = "ABABC";
 
-			rodCuttingProblem
-				.Run(rod);
-			
+			var substringFinder = new LongestCommonSubstring();
+			substringFinder.Calculate(str1, str2);
 			Console.Read();
 
 		}
