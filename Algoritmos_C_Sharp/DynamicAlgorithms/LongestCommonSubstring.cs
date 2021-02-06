@@ -19,86 +19,53 @@ namespace Algoritmos_C_Sharp.DynamicAlgorithms
 		}
 		public void Calculate(string str1, string str2)
 		{
-			var result = FindLargestSubstringMemoized(str1, str2);
+			var result = FindLargestSubstring(str1, str2);
 			Console.WriteLine($"The longest substring between string 1 and string 2 is {result}");
 		}
 
-		// Naive brute force algorithm 
+
 		private string FindLargestSubstring(string str1, string str2)
 		{
-			if (str1.Length == 0) return "";
-			if (str1.Length == 1) return str1;
 			var result = "";
-
 			for (var i = 0; i < str1.Length; i++)
 			{
-				var substring = str1.Substring(i, i == 0 ? str1.Length - 1 : str1.Length - i);
-
-				if (substring.Length < result.Length)
+				if (str1.Length - i < result.Length)
 				{
 					// no need to keep searching
-					// cause next solutions length will be smaller than result
+					// cause the longest substring was found
 					break;
 				}
-				if (SubstringExists(substring, str2))
-				{
-					result = GetStringWithMaxLength(substring, result);
-				}
-				else
-				{
-					result = FindLargestSubstring(substring, str2);
-				}
+				result = GetStringWithMaxLength(FindSubstring(str1, str2, i), result);
 			}
-
-
-
 			return result;
 		}
 
-		private string FindLargestSubstringMemoized(string str1, string str2)
+		private string FindSubstring(string str1, string str2, int i)
 		{
-			if (str1.Length == 0) return "";
-			if (str1.Length == 1) return str1;
-			var result = "";
-
-			for (var i = 0; i < str1.Length; i++)
+			var largestSubstringFound = "";
+			while (i < str1.Length)
 			{
-				var substring = str1.Substring(i, i == 0 ? str1.Length - 1 : str1.Length - i);
-				if (substring.Length < result.Length)
+				for (var j = 0; j < str2.Length; j++)
 				{
-					// no need to keep searching
-					// cause next solutions length will be smaller than result
-					break;
-				}
-				try
-				{
-					result = _memo[substring];
-					return result;
-				}
-				catch
-				{
-					if (SubstringExists(substring, str2))
+					if (i >= str1.Length) break;
+
+					if (str1[i] == str2[j])
 					{
-						result = GetStringWithMaxLength(substring, result);
-						_memo[str1] = result;
+						largestSubstringFound += str1[i];
+						i++;
 					}
 					else
 					{
-						result = FindLargestSubstringMemoized(substring, str2);
+						if (largestSubstringFound != "")
+						{
+							// the largest sequence was found
+							i = str1.Length;
+							break;
+						}
 					}
 				}
-
 			}
-			return result;
-		}
-
-
-
-
-		private bool SubstringExists(string str1, string str2)
-		{
-			var regex = new Regex(str1);
-			return regex.IsMatch(str2);
+			return largestSubstringFound;
 		}
 
 		private string GetStringWithMaxLength(string s1, string s2)
