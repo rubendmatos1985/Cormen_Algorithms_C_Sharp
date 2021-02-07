@@ -23,7 +23,7 @@ namespace Algoritmos_C_Sharp.DynamicAlgorithms
 			Console.WriteLine($"The longest substring between string 1 and string 2 is {result}");
 		}
 
-
+		// naive approach
 		private string FindLargestSubstring(string str1, string str2)
 		{
 			var result = "";
