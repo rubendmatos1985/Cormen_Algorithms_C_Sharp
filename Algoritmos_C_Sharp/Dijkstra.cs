@@ -103,7 +103,7 @@ namespace Algoritmos_C_Sharp
 			var node = end;
 			while (node.Distance.ComingFrom != null)
 			{
-				Console.WriteLine($"{node.Key}->{node.Distance.Value}->Comming from {node.Distance.ComingFrom.Key}");
+				Console.WriteLine($"{node.Key}-> Distance {node.Distance.Value}->Comming from {node.Distance.ComingFrom.Key}");
 				node = node.Distance.ComingFrom;
 			}
 		}
