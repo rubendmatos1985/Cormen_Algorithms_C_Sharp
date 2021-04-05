@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Algoritmos_C_Sharp.DynamicAlgorithms
+namespace Algoritmos_C_Sharp.DynamicProgrammingAlgorithms
 {
 	class OptimalBinarySearchTree
 	{

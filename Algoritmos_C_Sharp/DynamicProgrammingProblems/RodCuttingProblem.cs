@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace Algoritmos_C_Sharp.DynamicAlgorithms
+namespace Algoritmos_C_Sharp.DynamicProgrammingAlgorithms
 {
 	// Given a rod of length n inches 
 	// and a table of prices pi for i = 1,2....,n

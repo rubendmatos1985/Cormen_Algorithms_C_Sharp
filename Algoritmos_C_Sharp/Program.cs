@@ -1,5 +1,5 @@
 ﻿using Algoritmos_C_Sharp.CSP;
-using Algoritmos_C_Sharp.DynamicAlgorithms;
+using Algoritmos_C_Sharp.DynamicProgrammingProblems;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,36 +11,8 @@ namespace Algoritmos_C_Sharp
 
 		static void Main(string[] args)
 		{
-			var obst = new OptimalBinarySearchTree();
-			OBSTNode[] nodes = new OBSTNode[]
-			{
-				new OBSTNode(0)
-				{
-					Probability = 0.213f
-				},
-				new OBSTNode(1)
-				{
-					Probability = 0.020f
-				},
-				new OBSTNode(2)
-				{
-					Probability = 0.547f
-				},
-				new OBSTNode(3)
-				{
-					Probability = 0.100f
-				},
-				new OBSTNode(4)
-				{
-					Probability = 0.120f
-				}
-			};
-
-
-
-			var root = obst.RunWith(nodes);
-			
-
+			var dijkstra = new Dijkstra();
+			dijkstra.Run();
 		}
 		static int[] InsertionSort(int[] arr)
 		{

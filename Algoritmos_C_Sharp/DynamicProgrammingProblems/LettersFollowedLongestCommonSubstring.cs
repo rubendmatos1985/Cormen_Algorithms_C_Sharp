@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 * For example: 
 * Given 2 strings 'ABABC' and 'BABCA'is string BABC having length 4. Other common substrings are ABC, A, AB, B, BA, BC, C
 */
-namespace Algoritmos_C_Sharp.DynamicAlgorithms
+namespace Algoritmos_C_Sharp.DynamicProgrammingAlgorithms
 {
 	class LettersFollowedLongestCommonSubstring
 	{
