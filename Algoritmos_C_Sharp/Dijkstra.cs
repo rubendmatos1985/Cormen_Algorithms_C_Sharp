@@ -48,10 +48,6 @@ namespace Algoritmos_C_Sharp
 				Key = "H"
 			};
 
-			// since A is the starting point set its distance to 0
-			nodeA.Distance.Value = 0;
-			var targetNode = nodeH;
-
 			var tree = new List<DjikstraNode>
 			{
 				nodeA.AddConnection(nodeB, 8).AddConnection(nodeD, 5).AddConnection(nodeC, 2),
@@ -63,9 +59,14 @@ namespace Algoritmos_C_Sharp
 				nodeG.AddConnection(nodeH, 6),
 				nodeH
 			};
+			FindShortestPath(tree, start: nodeA, end: nodeH);
+		}
 
+		public void FindShortestPath(List<DjikstraNode> tree, DjikstraNode start, DjikstraNode end)
+		{
+			start.Distance.Value = 0;
 			DjikstraNode? currentNode = null;
-			while (currentNode != targetNode)
+			while (currentNode != end)
 			{
 				// pick the node with shortest path
 				var minDistance = double.PositiveInfinity;
@@ -99,12 +100,11 @@ namespace Algoritmos_C_Sharp
 			}
 
 			// print result 
-			var node = targetNode;
-			
-			while(node.Distance.ComingFrom != null)
+			var node = end;
+			while (node.Distance.ComingFrom != null)
 			{
 				Console.WriteLine($"{node.Key}->{node.Distance.Value}->Comming from {node.Distance.ComingFrom.Key}");
-				node = node.Distance.ComingFrom;	
+				node = node.Distance.ComingFrom;
 			}
 		}
 
